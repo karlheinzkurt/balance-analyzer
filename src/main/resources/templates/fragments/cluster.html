@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html::head"></head>
+<body>
+<div th:fragment="transactionIntervalHeader(header)" class="rounded transactionIntervalHeader"
+     th:classappend="${header.typeString}">
+    <a class="toggleButton">&plusmn;</a>
+    <span class="intervalDetails">
+    Interval <span class="interval" th:text="${header.intervalString}"></span>
+    ::
+    Accounts <span class="account" th:each="accountColor : ${header.accountColors}"
+                   th:styleappend="${'background-color:' + accountColor}">&nbsp;&nbsp;&nbsp;</span>
+    ::
+    Count <span class="count" th:text="${header.size}"></span>
+    ::
+    Movement
+    <span th:class="${header.differentialMovement.colorClass}"
+          th:text="${header.differentialMovement}"></span>
+    </span>
+    <span class="separatedMovements">
+    [ <span th:text="${header.absoluteMovement}"></span>
+    : <span th:text="${header.positiveMovement}"></span>
+    : <span th:text="${header.negativeMovement}"></span>
+    ]</span>
+</div>
+
+<table th:fragment="transactionInterval(interval)" class="rounded transactions" th:classappend="${interval.typeString}">
+    <tr>
+        <th class="transaction">Value Date</th>
+        <th class="transaction">Amount</th>
+        <th class="transaction">Recipient / Payer</th>
+        <th class="transaction">Purpose</th>
+        <th></th>
+    </tr>
+    <tr th:each="transaction : ${interval.transactions}">
+        <td class="transaction valueDate" th:styleappend="${'color:' + transaction.accountColor}"
+            th:text="${#temporals.format(transaction.valueDate, 'dd.MM.yyyy')}"></td>
+        <td class="transaction amount" th:classappend="${transaction.amount.colorClass}"
+            th:text="${transaction.amount}"></td>
+        <td class="transaction recipientOrPayer" th:text="${transaction.recipientOrPayer}"></td>
+        <td class="transaction purpose" th:text="${transaction.purpose}"></td>
+        <td class="transaction view"><a th:href="@{/transaction/{id}(id=${transaction.id})}">View</a></td>
+    </tr>
+</table>
+
+<table th:fragment="clusterOverview(clusters)" class="rounded clusters">
+    <tr>
+        <th class="cluster">Name</th>
+        <th class="cluster">Count</th>
+        <th class="cluster">Absolute Movement</th>
+        <th class="cluster">Positive Movement</th>
+        <th class="cluster">Negative Movement</th>
+        <th class="cluster">Differential Movement</th>
+    </tr>
+    <tr th:each="cluster : ${clusters}">
+        <td class="cluster name"><a th:href="@{/cluster/{id}(id=${cluster.id})}" th:text="${cluster.name}"/></td>
+        <td class="cluster count" th:text="${cluster.size}"></td>
+        <td class="cluster movement lessImportant" th:classappend="${cluster.absoluteMovement.colorClass}"
+            th:text="${cluster.absoluteMovement}"></td>
+        <td class="cluster movement lessImportant" th:classappend="${cluster.positiveMovement.colorClass}"
+            th:text="${cluster.positiveMovement}"></td>
+        <td class="cluster movement lessImportant" th:classappend="${cluster.negativeMovement.colorClass}"
+            th:text="${cluster.negativeMovement}"></td>
+        <td class="cluster movement" th:classappend="${cluster.differentialMovement.colorClass}"
+            th:text="${cluster.differentialMovement}"></td>
+    </tr>
+</table>
+</body>
+</html>

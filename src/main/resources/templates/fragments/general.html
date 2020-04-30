@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <title>Balance Analyser</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="/css/style.css" rel="stylesheet"/>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/general.js"></script>
+</head>
+<body>
+<div th:fragment="header(title, backLink)">
+    <div class="rounded headline">
+        <span class="title" th:text="${title}"></span>
+        <span class="navigation">
+            <a id="collapseYears">Collapse Years</a>
+            <a id="collapseMonths">Collapse Months</a>
+            |
+            <a th:href="@{/}">Overview</a>
+            <a th:href="@{/transactions}">Transactions</a>
+            <a th:href="@{/clusters}">Clusters</a>
+            <a th:href="@{${backLink}}">Back</a>
+        </span>
+    </div>
+</div>
+</body>
+</html>

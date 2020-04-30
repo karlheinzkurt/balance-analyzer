@@ -1,0 +1,167 @@
+
+body, a
+{
+    color: #f0f0f0;
+}
+
+body
+{
+    background-color: #e0e0e0;
+}
+
+.headline
+{
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.navigation, .separatedMovements
+{
+    position: absolute;
+    right: 30px;
+}
+
+.intervalDetails
+{
+    //padding-left: 10px;
+}
+
+.title
+{
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.rounded
+{
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  padding: 2px;
+}
+
+.roundedBottom
+{
+  border-bottom-left-radius: 5px;
+  -moz-border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  -moz-border-bottom-right-radius: 5px;
+  padding-bottom: 2px;
+}
+
+.negative
+{
+    color: #FF8585;
+    font-weight: bold;
+}
+
+.positive
+{
+    color: #0AFE47;
+    font-weight: bold;
+}
+
+.absolute
+{
+    color: #FFFF84;
+    font-weight: bold;
+}
+
+.transactionIntervalHeader, .headline, .clusters, .transactions, .overview
+{
+  border: 0px;
+  background-color: #5c9ef0;//#5299EF;
+}
+
+div.transactionIntervalHeader.year
+{
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.clustered
+{
+    color: yellow;
+}
+
+span.account
+{
+    width: 10px;
+}
+
+div.monthTransactionInterval
+{
+    padding: 6px;
+    margin-top: 0px;
+    background-color: #c0c0c0;
+}
+
+div.yearTransactionInterval
+{
+    padding: 0px;
+    margin-bottom: 10px;
+    border: 3px solid #5c9ef0;//#5299EF;
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+}
+
+th
+{
+    text-align: left;
+}
+
+.interval
+{
+    color: #FFFF84;
+    font-weight: bold;
+}
+
+td.valueDate, td.amount
+{
+    width: 6%;
+    text-align: right;
+}
+
+td.view
+{
+    width: 3%;
+    text-align: right;
+}
+
+td.recipientOrPayer
+{
+    width: 30%;
+}
+
+td.name
+{
+    width: 25%;
+}
+
+table.clusters, table.transactions
+{
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 3px;
+}
+
+table.clusters, table.overview
+{
+    margin-bottom: 10px;
+}
+
+th.transaction, td.transaction, th.cluster, td.cluster, th.overview, td.overview
+{
+    padding: 5px;
+}
+
+td.transaction, td.cluster
+{
+    border-left: 1px solid #f0f0f0;
+    border-top: 1px solid #f0f0f0;
+}
+
+td:first-child.transaction, td:first-child.cluster
+{
+     border-left: none;
+}

@@ -1,0 +1,16 @@
+Umsatzauskunft;
+Name;Vorname Name;
+BLZ;01010101;
+Kontonummer;0123456789;
+IBAN;DE92010101010123456789;
+Aktueller Kontostand;23,05 €;
+Summe der Umsätze in den nächsten 14 Tagen;-3,00 €;
+
+Umsätze in den nächsten 14 Tagen;
+Buchungsdatum;Umsatzart;Buchungsdetails;Auftraggeber;Empfänger;Betrag (€);
+20.01.2020;Lastbuchung;Verwendungszweck 4;Auftraggeber 4;;-0,75 €;
+
+gebuchte Umsätze;
+Buchungsdatum;Wertstellung;Umsatzart;Buchungsdetails;Auftraggeber;Empfänger;Betrag (€);Saldo (€);
+15.01.2020;15.01.2020;Dauerauftrag;Verwendungszweck 3;Auftraggeber 3;Empfänger 3;-1,00 €;5,00 €;
+14.01.2020;15.01.2020;Überweisung;Verwendungszweck 4;Auftraggeber 4;Empfänger 4;-55,00 €;-50,00 €;

@@ -1,0 +1,9 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html::head"></head>
+<body>
+<header th:insert="fragments/general.html::header(title='Clusters', backLink='/')"></header>
+<table th:replace="fragments/cluster.html::clusterOverview(clusters=${consumingClusters})"></table>
+<table th:replace="fragments/cluster.html::clusterOverview(clusters=${nonconsumingClusters})"></table>
+</body>
+</html>

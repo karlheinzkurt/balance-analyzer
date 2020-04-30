@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html::head"></head>
+<body>
+<header th:insert="fragments/general.html::header(title='Transaction Details', backLink='/transactions')"></header>
+<table class="rounded transactions">
+    <tr>
+        <td class="transaction">Account</td>
+        <td class="transaction" th:text="${transaction.account}"/>
+    </tr>
+    <tr>
+        <td class="transaction">Date</td>
+        <td class="transaction" th:text="${#temporals.format(transaction.valueDate, 'dd.MM.yyyy')}"></td>
+    </tr>
+    <tr>
+        <td class="transaction">Checksum</td>
+        <td class="transaction" th:text="${transaction.checksum}"/>
+    </tr>
+    <tr>
+        <td class="transaction">Amount</td>
+        <td class="transaction" th:text="${transaction.amount}"></td>
+    </tr>
+    <tr>
+        <td class="transaction">Posting</td>
+        <td class="transaction" th:text="${transaction.postingText}"></td>
+    </tr>
+    <tr>
+        <td class="transaction">Recipient / Payer</td>
+        <td class="transaction" th:text="${transaction.recipientOrPayer}"></td>
+    </tr>
+    <tr>
+        <td class="transaction">Purpose</td>
+        <td class="transaction" th:text="${transaction.purpose}"></td>
+    </tr>
+    <tr>
+        <td class="transaction">State</td>
+        <td class="transaction" th:text="${transaction.state}"></td>
+    </tr>
+</table>
+<a th:href="@{/transactions}">Back</a>
+</body>
+</html>

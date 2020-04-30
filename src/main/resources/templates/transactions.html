@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html::head"></head>
+<body>
+<header th:insert="fragments/general.html::header(title='Transactions', backLink='/')"></header>
+<table class="rounded transactions">
+    <tr>
+        <th class="transaction">Value Date</th>
+        <th class="transaction">Amount</th>
+        <th class="transaction">Posting</th>
+        <th class="transaction">Recipient / Payer</th>
+        <th class="transaction">Purpose</th>
+        <th class="transaction">State</th>
+        <th class="transaction">Details</th>
+    </tr>
+    <tr th:each="transaction : ${transactions}" th:classappend="${transaction.clustered ? 'clustered' : ''}">
+        <td class="transaction valueDate" th:text="${#temporals.format(transaction.valueDate, 'dd.MM.yyyy')}"></td>
+        <td class="transaction amount" th:classappend="${transaction.amount.colorClass}"
+            th:text="${transaction.amount}"></td>
+        <td class="transaction postingText" th:text="${transaction.postingText}"></td>
+        <td class="transaction recipientOrPayer" th:text="${transaction.recipientOrPayer}"></td>
+        <td class="transaction purpose" th:text="${transaction.purpose}"></td>
+        <td class="transaction state" th:text="${transaction.state}"></td>
+        <td class="transaction view"><a th:href="@{/transaction/{id}(id=${transaction.id})}">View</a></td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html::head"></head>
+<body>
+<header th:insert="fragments/general.html::header(title=${cluster.name}, backLink='/clusters')"></header>
+<div class="rounded yearTransactionInterval" th:each="year : ${years}">
+    <div th:replace="fragments/cluster.html::transactionIntervalHeader(header=${year.year})"></div>
+    <div class="roundedBottom monthTransactionInterval" th:each="monthTransactionInterval : ${year.months}">
+        <div th:replace="fragments/cluster.html::transactionIntervalHeader(header=${monthTransactionInterval})"></div>
+        <table th:replace="fragments/cluster.html::transactionInterval(interval=${monthTransactionInterval})"></table>
+    </div>
+</div>
+</body>
+</html>

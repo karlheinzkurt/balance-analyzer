@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html::head"></head>
+<body>
+<header th:insert="fragments/general.html::header(title='Overview', backLink='/')"></header>
+<table class="rounded overview">
+    <tr>
+        <th class="overview">Institution</th>
+        <th class="overview">Name</th>
+        <th class="overview">IBAN</th>
+        <th class="overview">Count</th>
+        <th class="overview">Range</th>
+        <th class="overview">Show</th>
+    </tr>
+    <tr th:each="account : ${accounts}">
+        <td class="overview" th:text="${account.institution}"></td>
+        <td class="overview" th:text="${account.name}"></td>
+        <td class="overview" th:text="${account.iban}"></td>
+        <td class="overview" th:text="${account.numberOfTransactions}"></td>
+        <td class="overview" th:text="${transactionRepository.getRangeByAccountAsString(account.id)}"></td>
+        <td class="overview"><a th:href="@{/transactions/} + ${account.id}">Transactions</a></td>
+    </tr>
+</table>
+<!--<div class="rounded yearTransactionInterval">
+    <div class="rounded transactionIntervalHeader year">
+        <a class="toggleButton">&plusmn;</a>
+        <span class="intervalDetails">Year Details</span>
+    </div>
+    <div class="rounded monthTransactionInterval">
+        <div class="rounded transactionIntervalHeader month">
+            <a class="toggleButton">&plusmn;</a>
+            <span>Description 1</span>
+        </div>
+        <table class="rounded transactions month">
+            <tr>
+                <th>Column 1</th>
+            </tr>
+            <tr>
+                <td>Data 1</td>
+            </tr>
+        </table>
+    </div>
+    <div class="rounded monthTransactionInterval">
+        <div class="rounded transactionIntervalHeader month">
+            <a class="toggleButton">&plusmn;</a>
+            <span>Description 2</span>
+        </div>
+        <table class="rounded transactions month">
+            <tr>
+                <th>Column 2</th>
+            </tr>
+            <tr>
+                <td>Data 2</td>
+            </tr>
+        </table>
+    </div>
+</div>-->
+</body>
+</html>
