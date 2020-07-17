@@ -30,7 +30,7 @@ public class MatchDescriptionTest
     @Test
     void quoteTokensTest()
     {
-        final var matchDescription = new Gson().fromJson(""" 
+        final var matchDescription = new Gson().fromJson("""
                 {
                     "tokens": [".*"],
                     "matchType": "MATCHES_ANY_QUOTED"
@@ -43,7 +43,7 @@ public class MatchDescriptionTest
     @Test
     void invalidMatchTypeTest()
     {
-        final var matchDescription = new Gson().fromJson(""" 
+        final var matchDescription = new Gson().fromJson("""
                 {
                     "tokens": ["bla"],
                     "matchType": "blubber"
@@ -55,7 +55,7 @@ public class MatchDescriptionTest
     @Test
     void containsAnyQuotedFromJson()
     {
-        final var matchDescription = new Gson().fromJson(""" 
+        final var matchDescription = new Gson().fromJson("""
                 {
                     "tokens": ["Recipient A", "Payer A", "Recipient B"],
                     "matchType": "CONTAINS_ANY_QUOTED"
@@ -69,7 +69,7 @@ public class MatchDescriptionTest
     @Test
     void matchesAnyQuotedFromJson()
     {
-        final var matchDescription = new Gson().fromJson(""" 
+        final var matchDescription = new Gson().fromJson("""
                 {
                     "tokens": ["Recipient A", "Payer A", "Recipient B"],
                     "matchType": "MATCHES_ANY_QUOTED"
