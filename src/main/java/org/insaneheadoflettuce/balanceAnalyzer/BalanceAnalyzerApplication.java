@@ -9,6 +9,7 @@ import org.insaneheadoflettuce.balanceAnalyzer.model.Account;
 import org.insaneheadoflettuce.balanceAnalyzer.model.Cluster;
 import org.insaneheadoflettuce.balanceAnalyzer.model.ClusterDescription;
 import org.insaneheadoflettuce.balanceAnalyzer.model.Transaction;
+import org.insaneheadoflettuce.balanceAnalyzer.utility.FileUtilities;
 import org.insaneheadoflettuce.input.DataImporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,29 +57,13 @@ public class BalanceAnalyzerApplication implements CommandLineRunner
     @Value("${BALANCE_ANALYZER_DATA_ROOT:./data/}")
     Path dataRoot;
 
-    private List<ClusterDescription> readClusterDescriptions() throws IOException
-    {
-        try (final var reader = new FileReader(configRoot.resolve("cluster_descriptions.json").toFile()))
-        {
-            return Arrays.asList(new Gson().fromJson(reader, ClusterDescription[].class));
-        }
-    }
-
-    private List<Account> readAccounts() throws IOException
-    {
-        try (final var reader = new FileReader(configRoot.resolve("accounts.json").toFile()))
-        {
-            return Arrays.asList(new Gson().fromJson(reader, Account[].class));
-        }
-    }
-
     @Override
     public void run(String... args) throws Exception
     {
-        final var clusterDescriptions = readClusterDescriptions();
+        final var clusterDescriptions = FileUtilities.readJson(FileUtilities.ensureFile(configRoot.resolve("cluster_descriptions.json")), ClusterDescription[].class, () -> new ClusterDescription[]{});
         clusterDescriptionRepository.saveAll(clusterDescriptions);
 
-        final var accounts = readAccounts();
+        final var accounts = FileUtilities.readJson(FileUtilities.ensureFile(configRoot.resolve("accounts.json")), Account[].class, () -> new Account[]{});
         accountRepository.saveAll(accounts);
 
         final var transactions = dataImporter.importAll(dataRoot, accounts);
@@ -112,8 +97,6 @@ public class BalanceAnalyzerApplication implements CommandLineRunner
 
         transactionRepository.saveAll(transactions);
         clusterRepository.saveAll(clusters);
-
-        // 196
 
         /*  TODO Support find all transactions with same property
          *  TODO Support different accounts clustered together and separately
