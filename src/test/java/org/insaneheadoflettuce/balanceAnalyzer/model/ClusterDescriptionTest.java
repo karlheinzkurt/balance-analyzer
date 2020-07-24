@@ -55,13 +55,13 @@ public class ClusterDescriptionTest
     @Test
     void matchesAnyQuotedFromJson()
     {
-        final var clusterDescription = new Gson().fromJson(""" 
+        final var clusterDescription = new Gson().fromJson("""
                 {
                     "name": "Some cluster",
                     "meta": "Fixed costs",
-                    "whiteList": 
+                    "whiteList":
                     {
-                        "PURPOSE": 
+                        "PURPOSE":
                         {
                             "tokens": ["Area52"],
                             "matchType": "CONTAINS_ANY_QUOTED"

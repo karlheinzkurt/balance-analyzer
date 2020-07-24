@@ -54,9 +54,10 @@ public class NumberTest
     void testToString()
     {
         Assertions.assertEquals("0", new Number(0.).toString());
-        Assertions.assertEquals("0.33", new Number(1. / 3.).toString());
-        Assertions.assertEquals("0.10", new Number(0.1).toString());
-        Assertions.assertEquals("10000000.10", new Number(10000000.1).toString());
+        // Can contain , or . depending on location, hence we use a regex for matching
+        Assertions.assertTrue(new Number(1. / 3.).toString().matches("0.33"));
+        Assertions.assertTrue(new Number(0.1).toString().matches("0.10"));
+        Assertions.assertTrue(new Number(10000000.1).toString().matches("10000000.10"));
     }
 
     @Test

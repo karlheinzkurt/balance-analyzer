@@ -16,9 +16,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Set up JDK
       uses: actions/setup-java@v1
       with:
         java-version: 14
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+
+    - name: Run tests
+      run: ./gradlew test -i
+
+    - name: Build jar
+      run: ./gradlew bootJar
+
+    - name: Archive jar
+      uses: actions/upload-artifact@v2
+      with:
+        name: balance-analyzer.jar
+        path: |
+          build/libs/*.jar
