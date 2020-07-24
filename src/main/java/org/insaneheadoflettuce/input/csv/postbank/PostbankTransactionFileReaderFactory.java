@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -99,15 +98,14 @@ public class PostbankTransactionFileReaderFactory implements TransactionFileRead
         IBANValidator.validOrThrow(iban);
 
         return () -> {
-            final var transactions = new ArrayList<Transaction>();
             final var pending = lines.stream()
                     .skip(matches.get(Field.PENDING).index)
                     .takeWhile(Predicate.not(String::isEmpty))
                     .collect(Collectors.joining("\n"));
-            transactions.addAll(new CSVTransactionReader(new CsvToBeanBuilder(new InputStreamReader(new ByteArrayInputStream(pending.getBytes())))
+            final var transactions = new ArrayList<>(new CSVTransactionReader<>(new CsvToBeanBuilder<PostbankTransactionEntry>(new InputStreamReader(new ByteArrayInputStream(pending.getBytes())))
                     .withSeparator(separator)
                     .withType(PostbankTransactionEntry.class)
-                    .build(), (Function<Transaction, Transaction>) transaction ->
+                    .build(), transaction ->
             {
                 transaction.setRecipientOrPayer(transaction.getRecipientOrPayer().replaceFirst(namePattern, ""));
                 transaction.setState(Transaction.State.PENDING);
@@ -118,10 +116,10 @@ public class PostbankTransactionFileReaderFactory implements TransactionFileRead
                     .skip(matches.get(Field.BOOKED).index)
                     .takeWhile(Predicate.not(String::isEmpty))
                     .collect(Collectors.joining("\n"));
-            transactions.addAll(new CSVTransactionReader(new CsvToBeanBuilder(new InputStreamReader(new ByteArrayInputStream(booked.getBytes())))
+            transactions.addAll(new CSVTransactionReader<>(new CsvToBeanBuilder<PostbankTransactionEntry>(new InputStreamReader(new ByteArrayInputStream(booked.getBytes())))
                     .withSeparator(separator)
                     .withType(PostbankTransactionEntry.class)
-                    .build(), (Function<Transaction, Transaction>) transaction ->
+                    .build(), transaction ->
             {
                 transaction.setRecipientOrPayer(transaction.getRecipientOrPayer().replaceFirst(namePattern, ""));
                 transaction.setState(Transaction.State.BOOKED);

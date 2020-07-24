@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 
 public class HomogenizingTransactionReader implements TransactionFileReader
 {
-    private static Logger logger = LoggerFactory.getLogger(HomogenizingTransactionReader.class);
-    private List<Transaction> transactions;
+    private static final Logger logger = LoggerFactory.getLogger(HomogenizingTransactionReader.class);
+    private final List<Transaction> transactions;
 
     private static class UniqueWrapper
     {
-        private Transaction transaction;
+        private final Transaction transaction;
 
         UniqueWrapper(Transaction transaction)
         {

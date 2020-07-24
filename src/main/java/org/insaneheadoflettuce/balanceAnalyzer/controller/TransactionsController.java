@@ -27,6 +27,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@SuppressWarnings("unused")
 @Controller
 public class TransactionsController
 {
@@ -42,7 +43,7 @@ public class TransactionsController
     @Autowired
     AccountRepository accountRepository;
 
-    private static Logger logger = LoggerFactory.getLogger(TransactionsController.class);
+    private static final Logger logger = LoggerFactory.getLogger(TransactionsController.class);
 
     private final Counter requestCounter = Metrics.counter("transaction_controller_requests");
 

@@ -44,7 +44,7 @@ public class Transaction
     private State state;
     private Boolean clustered = false;
     @ManyToMany(mappedBy = "transactions")
-    private Set<Cluster> clusters = new HashSet<>();
+    private final Set<Cluster> clusters = new HashSet<>();
 
     public Long getId()
     {

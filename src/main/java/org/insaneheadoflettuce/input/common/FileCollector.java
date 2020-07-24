@@ -56,14 +56,14 @@ public class FileCollector
             return date;
         }
 
-        private Path path;
-        private Matcher matcher;
+        private final Path path;
+        private final Matcher matcher;
         private LocalDate date = LocalDate.MIN;
     }
 
-    private List<Path> paths;
+    private final List<Path> paths;
     private Pattern pattern;
-    private List<Predicate<Item>> predicates = new ArrayList<>();
+    private final List<Predicate<Item>> predicates = new ArrayList<>();
     private Comparator<Item> sorter = (a, b) -> 0; // Identity
 
     private static Path validate(Path root)

@@ -67,11 +67,11 @@ public class MatchDescription
         MATCHES_ANY_PATTERN
     }
 
-    private static Map<MatchType, Function<List<String>, String>> matchTypeMap = Map.ofEntries(
+    private static final Map<MatchType, Function<List<String>, String>> matchTypeMap = Map.ofEntries(
             Map.entry(MatchType.CONTAINS_ANY_QUOTED, tokens -> ".*?(" + tokens.stream().map(Pattern::quote).collect(Collectors.joining("|")) + ").*?"),
-            Map.entry(MatchType.CONTAINS_ANY_PATTERN, tokens -> ".*?(" + tokens.stream().collect(Collectors.joining("|")) + ").*?"),
+            Map.entry(MatchType.CONTAINS_ANY_PATTERN, tokens -> ".*?(" + String.join("|", tokens) + ").*?"),
             Map.entry(MatchType.MATCHES_ANY_QUOTED, tokens -> "^" + tokens.stream().map(Pattern::quote).collect(Collectors.joining("|")) + "$"),
-            Map.entry(MatchType.MATCHES_ANY_PATTERN, tokens -> "^" + tokens.stream().collect(Collectors.joining("|")) + "$")
+            Map.entry(MatchType.MATCHES_ANY_PATTERN, tokens -> "^" + String.join("|", tokens) + "$")
     );
 
     @Id

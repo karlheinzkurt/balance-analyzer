@@ -26,7 +26,7 @@ public class ClusterDescription
     /**
      * Method itself is not serializable, so we have to map it here.
      */
-    private static Map<Field, Function<Transaction, String>> fieldMap = Map.ofEntries(
+    private static final Map<Field, Function<Transaction, String>> fieldMap = Map.ofEntries(
             Map.entry(Field.PURPOSE, Transaction::getPurpose),
             Map.entry(Field.RECIPIENTORPAYER, Transaction::getRecipientOrPayer),
             Map.entry(Field.POSTINGTEXT, Transaction::getPostingText),
@@ -41,9 +41,9 @@ public class ClusterDescription
     private String name;
     private String meta;
     @OneToMany(cascade = CascadeType.PERSIST)
-    private Map<Field, MatchDescription> whiteList = new HashMap<>();
+    private final Map<Field, MatchDescription> whiteList = new HashMap<>();
     @OneToMany(cascade = CascadeType.PERSIST)
-    private Map<Field, MatchDescription> blackList = new HashMap<>();
+    private final Map<Field, MatchDescription> blackList = new HashMap<>();
 
     public static ClusterDescription create(String name)
     {

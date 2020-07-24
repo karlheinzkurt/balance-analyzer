@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Number
 {
-    private Double value;
-    private boolean absolute;
+    private final Double value;
+    private final boolean absolute;
 
     public Number(Double value)
     {

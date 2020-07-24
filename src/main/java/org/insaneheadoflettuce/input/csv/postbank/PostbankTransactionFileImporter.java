@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unused") // Is used by reflection
 @Service("PostbankTransactionFileImporter")
 public class PostbankTransactionFileImporter implements TransactionImporter
 {

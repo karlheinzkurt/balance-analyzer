@@ -17,7 +17,7 @@ public class Cluster extends AbstractTransactionCollection
     private String name;
     boolean isConsuming;
     @ManyToMany
-    private List<Transaction> transactions = new ArrayList<>();
+    private final List<Transaction> transactions = new ArrayList<>();
 
     public static final Comparator<Cluster> ascendingComparator = (a, b) ->
     {

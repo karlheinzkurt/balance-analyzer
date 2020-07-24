@@ -8,8 +8,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class SimpleChecksumProvider implements ChecksumProvider
 {
@@ -29,7 +27,7 @@ public class SimpleChecksumProvider implements ChecksumProvider
 
     public String calculatePurged(String... args)
     {
-        return calculatePurged(Arrays.asList(args).stream().collect(Collectors.joining()));
+        return calculatePurged(String.join("", args));
     }
 
     public String calculatePurged(String string)
