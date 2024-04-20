@@ -21,7 +21,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: 21
+          java-distribution: 'temurin'
+          java-version: '21'
 
       - name: Run tests
         run: ./gradlew test -i
