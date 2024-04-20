@@ -15,23 +15,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Set up JDK
-      uses: actions/setup-java@v1
-      with:
-        java-version: 14
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
 
-    - name: Run tests
-      run: ./gradlew test -i
+      - name: Run tests
+        run: ./gradlew test -i
 
-    - name: Build jar
-      run: ./gradlew bootJar
+      - name: Build jar
+        run: ./gradlew bootJar
 
-    - name: Archive jar
-      uses: actions/upload-artifact@v2
-      with:
-        name: balance-analyzer.jar
-        path: |
-          build/libs/*.jar
+      - name: Archive jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: balance-analyzer.jar
+          path: |
+            build/libs/*.jar
