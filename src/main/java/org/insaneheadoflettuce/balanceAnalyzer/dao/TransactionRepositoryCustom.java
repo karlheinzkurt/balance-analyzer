@@ -7,8 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface TransactionRepositoryCustom
-{
+public interface TransactionRepositoryCustom {
     List<Transaction> findByMonth(LocalDate date);
 
     List<Transaction> findByYear(LocalDate date);

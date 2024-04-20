@@ -12,28 +12,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class FileUtilities
-{
-    private static Path ensureDirectory(Path path) throws IOException
-    {
+public class FileUtilities {
+    private static Path ensureDirectory(Path path) throws IOException {
         MoreFiles.createParentDirectories(path);
         return path;
     }
 
-    public static Path ensureFile(Path path) throws IOException
-    {
+    public static Path ensureFile(Path path) throws IOException {
         final var result = ensureDirectory(path);
-        if (!Files.isRegularFile(result))
-        {
+        if (!Files.isRegularFile(result)) {
             MoreFiles.touch(result);
         }
         return path;
     }
 
-    public static <T> List<T> readJson(Path path, Class<T[]> clazz, Supplier<T[]> factory) throws IOException
-    {
-        try (final var reader = new FileReader(FileUtilities.ensureFile(path).toFile()))
-        {
+    public static <T> List<T> readJson(Path path, Class<T[]> clazz, Supplier<T[]> factory) throws IOException {
+        try (final var reader = new FileReader(FileUtilities.ensureFile(path).toFile())) {
             return Arrays.asList(Optional.ofNullable(new Gson().fromJson(reader, clazz)).orElse(factory.get()));
         }
     }

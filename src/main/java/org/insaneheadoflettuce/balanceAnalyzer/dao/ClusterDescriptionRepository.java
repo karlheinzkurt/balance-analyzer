@@ -5,6 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ClusterDescriptionRepository extends CrudRepository<ClusterDescription, Long>
-{
+public interface ClusterDescriptionRepository extends CrudRepository<ClusterDescription, Long> {
 }

@@ -11,8 +11,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class PostbankTransactionEntry implements CSVTransactionEntry
-{
+public class PostbankTransactionEntry implements CSVTransactionEntry {
     private static final String defaultLocale = "Windows-1252";
 
     @CsvCustomBindByName(column = "Buchungsdatum", converter = PostbankDateConverter.class, required = true)
@@ -40,8 +39,7 @@ public class PostbankTransactionEntry implements CSVTransactionEntry
     Double saldo;
 
     @Override
-    public Transaction toTransaction()
-    {
+    public Transaction toTransaction() {
         final var t = new Transaction();
         t.setValueDate(wertstellungsDatum != null ? wertstellungsDatum : buchungsDatum);
         t.setPostingText(umsatzArt);

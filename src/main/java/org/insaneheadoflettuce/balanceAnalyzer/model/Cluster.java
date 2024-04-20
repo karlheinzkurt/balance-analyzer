@@ -1,16 +1,15 @@
 package org.insaneheadoflettuce.balanceAnalyzer.model;
 
+import jakarta.persistence.*;
 import org.insaneheadoflettuce.balanceAnalyzer.AbstractTransactionCollection;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
-public class Cluster extends AbstractTransactionCollection
-{
+public class Cluster extends AbstractTransactionCollection {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -33,10 +32,8 @@ public class Cluster extends AbstractTransactionCollection
         return Double.valueOf(s - f).intValue();
     };
 
-    public static Cluster create(String name, boolean isConsuming, List<Transaction> transactions)
-    {
-        if (isConsuming && transactions.stream().anyMatch(Transaction::isClustered))
-        {
+    public static Cluster create(String name, boolean isConsuming, List<Transaction> transactions) {
+        if (isConsuming && transactions.stream().anyMatch(Transaction::isClustered)) {
             throw new IllegalArgumentException("Transaction cannot be consumed twice");
         }
 
@@ -49,8 +46,7 @@ public class Cluster extends AbstractTransactionCollection
         return cluster;
     }
 
-    public static Cluster create(String name, List<Cluster> clusters)
-    {
+    public static Cluster create(String name, List<Cluster> clusters) {
         final var cluster = new Cluster();
         cluster.name = name;
         cluster.isConsuming = false;
@@ -61,26 +57,22 @@ public class Cluster extends AbstractTransactionCollection
         return cluster;
     }
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     @Override
-    public boolean isConsuming()
-    {
+    public boolean isConsuming() {
         return isConsuming;
     }
 
     @Override
-    public List<Transaction> getTransactions()
-    {
+    public List<Transaction> getTransactions() {
         return transactions;
     }
 }

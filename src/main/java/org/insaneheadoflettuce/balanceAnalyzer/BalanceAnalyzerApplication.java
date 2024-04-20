@@ -31,8 +31,7 @@ import java.util.stream.Collectors;
 @SpringBootApplication
 @EnableJpaRepositories
 @ComponentScan(basePackageClasses = {BalanceAnalyzerApplication.class, DataImporter.class})
-public class BalanceAnalyzerApplication implements CommandLineRunner
-{
+public class BalanceAnalyzerApplication implements CommandLineRunner {
     Logger logger = LoggerFactory.getLogger(BalanceAnalyzerApplication.class);
 
     @Autowired
@@ -57,8 +56,7 @@ public class BalanceAnalyzerApplication implements CommandLineRunner
     Path dataRoot;
 
     @Override
-    public void run(String... args) throws Exception
-    {
+    public void run(String... args) throws Exception {
         final var clusterDescriptions = FileUtilities.readJson(FileUtilities.ensureFile(configRoot.resolve("cluster_descriptions.json")), ClusterDescription[].class, () -> new ClusterDescription[]{});
         clusterDescriptionRepository.saveAll(clusterDescriptions);
 
@@ -104,8 +102,7 @@ public class BalanceAnalyzerApplication implements CommandLineRunner
         logger.info("Latest booked transaction:   " + transactionRepository.getFirstByStateOrderByValueDateDesc(Transaction.State.BOOKED).orElse(Transaction.UNDEFINED).toString());
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         SpringApplication.run(BalanceAnalyzerApplication.class, args);
     }
 }

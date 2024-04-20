@@ -29,8 +29,7 @@ import java.util.stream.StreamSupport;
 
 @SuppressWarnings("unused")
 @Controller
-public class TransactionsController
-{
+public class TransactionsController {
     private static final DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("yyyy.MM");
     private static final DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yyyy");
 
@@ -49,8 +48,7 @@ public class TransactionsController
 
     @Timed("transaction_controller_index")
     @RequestMapping("/")
-    public String index(Model model)
-    {
+    public String index(Model model) {
         requestCounter.increment();
 
         model.addAttribute("accounts", accountRepository.findAll());
@@ -62,8 +60,7 @@ public class TransactionsController
     }
 
     @RequestMapping("/clusters")
-    public String clusters(Model model)
-    {
+    public String clusters(Model model) {
         requestCounter.increment();
 
         final var clusters = clusterRepository.findAll();
@@ -83,42 +80,35 @@ public class TransactionsController
         return "clusters";
     }
 
-    class Year
-    {
+    class Year {
         private final TransactionInterval year;
         private final List<TransactionInterval> months;
 
-        Year(TransactionInterval year)
-        {
+        Year(TransactionInterval year) {
             this.year = year;
             this.months = new ArrayList<>();
         }
 
-        TransactionInterval addMonth(TransactionInterval month)
-        {
+        TransactionInterval addMonth(TransactionInterval month) {
             months.add(month);
             return month;
         }
 
-        public TransactionCollection getYear()
-        {
+        public TransactionCollection getYear() {
             return year.setType(TransactionInterval.Type.YEAR);
         }
 
-        public List<TransactionCollection> getMonths()
-        {
+        public List<TransactionCollection> getMonths() {
             return months.stream().map(t -> t.setType(TransactionInterval.Type.MONTH)).collect(Collectors.toList());
         }
     }
 
     @RequestMapping("/cluster/{id}")
-    public String cluster(@PathVariable Long id, Model model)
-    {
+    public String cluster(@PathVariable Long id, Model model) {
         requestCounter.increment();
 
         final var optionalCluster = clusterRepository.findById(id);
-        if (optionalCluster.isEmpty())
-        {
+        if (optionalCluster.isEmpty()) {
             return "error";
         }
 
@@ -126,8 +116,7 @@ public class TransactionsController
         model.addAttribute("cluster", cluster);
 
         final var optionalRange = transactionRepository.getRange();
-        if (optionalRange.isEmpty())
-        {
+        if (optionalRange.isEmpty()) {
             return "error";
         }
 
@@ -135,16 +124,14 @@ public class TransactionsController
         new IntervalChopper(optionalRange.get()).walkYearsBack((yearBegin, yearEnd) ->
         {
             final var year = new Year(new TransactionInterval(yearBegin, yearEnd, cluster));
-            if (year.year.getTransactions().isEmpty())
-            {
+            if (year.year.getTransactions().isEmpty()) {
                 logger.debug("Ignoring empty year: " + yearBegin.format(yearFormatter));
                 return;
             }
             new IntervalChopper(yearBegin, yearEnd).walkMonthsBack((monthBegin, monthEnd) ->
             {
                 final var month = new TransactionInterval(monthBegin, monthEnd, cluster);
-                if (month.getTransactions().isEmpty())
-                {
+                if (month.getTransactions().isEmpty()) {
                     logger.debug("Ignoring empty month: " + monthBegin.format(monthFormatter));
                     return;
                 }
@@ -158,8 +145,7 @@ public class TransactionsController
     }
 
     @RequestMapping(value = "/transactions", method = RequestMethod.GET)
-    public String transactionList(Model model)
-    {
+    public String transactionList(Model model) {
         requestCounter.increment();
 
         model.addAttribute("transactions", transactionRepository.getAllByOrderByValueDateDesc());
@@ -167,8 +153,7 @@ public class TransactionsController
     }
 
     @RequestMapping(value = "/transactions/{accountId}", method = RequestMethod.GET)
-    public String transactionList(@PathVariable Long accountId, Model model)
-    {
+    public String transactionList(@PathVariable Long accountId, Model model) {
         requestCounter.increment();
 
         model.addAttribute("transactions", transactionRepository.getAllByAccountIdOrderByValueDateDesc(accountId));
@@ -176,13 +161,11 @@ public class TransactionsController
     }
 
     @RequestMapping("/transaction/{id}")
-    public String transaction(@PathVariable Long id, Model model)
-    {
+    public String transaction(@PathVariable Long id, Model model) {
         requestCounter.increment();
 
         final var transaction = transactionRepository.findById(id);
-        if (transaction.isEmpty())
-        {
+        if (transaction.isEmpty()) {
             return "error";
         }
         model.addAttribute("transaction", transaction.get());

@@ -13,38 +13,30 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class HomogenizingTransactionReader implements TransactionFileReader
-{
+public class HomogenizingTransactionReader implements TransactionFileReader {
     private static final Logger logger = LoggerFactory.getLogger(HomogenizingTransactionReader.class);
     private final List<Transaction> transactions;
 
-    private static class UniqueWrapper
-    {
+    private static class UniqueWrapper {
         private final Transaction transaction;
 
-        UniqueWrapper(Transaction transaction)
-        {
+        UniqueWrapper(Transaction transaction) {
             this.transaction = transaction;
         }
 
-        Transaction get()
-        {
+        Transaction get() {
             return transaction;
         }
 
         @Override
-        public boolean equals(Object other)
-        {
-            if (other == this)
-            {
+        public boolean equals(Object other) {
+            if (other == this) {
                 return true;
             }
-            if (other == null)
-            {
+            if (other == null) {
                 return false;
             }
-            if (getClass() != other.getClass())
-            {
+            if (getClass() != other.getClass()) {
                 return false;
             }
             return Objects.equals(
@@ -53,13 +45,11 @@ public class HomogenizingTransactionReader implements TransactionFileReader
         }
 
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             return transaction.getChecksum().hashCode();
         }
 
-        static List<UniqueWrapper> unify(List<UniqueWrapper> wrappers)
-        {
+        static List<UniqueWrapper> unify(List<UniqueWrapper> wrappers) {
             //wrappers.stream().anyMatch(w -> w.transaction.getState() == Transaction.State.BOOKED)
 
             /* TODO Currently the lastest wins. But we should
@@ -70,8 +60,7 @@ public class HomogenizingTransactionReader implements TransactionFileReader
         }
     }
 
-    public HomogenizingTransactionReader(List<Path> paths, TransactionFileReaderFactory readerFactory)
-    {
+    public HomogenizingTransactionReader(List<Path> paths, TransactionFileReaderFactory readerFactory) {
         final var map = paths.stream()
                 .map(readerFactory::create)
                 .map(TransactionFileReader::read)
@@ -99,8 +88,7 @@ public class HomogenizingTransactionReader implements TransactionFileReader
     }
 
     @Override
-    public List<Transaction> read()
-    {
+    public List<Transaction> read() {
         return transactions;
     }
 }

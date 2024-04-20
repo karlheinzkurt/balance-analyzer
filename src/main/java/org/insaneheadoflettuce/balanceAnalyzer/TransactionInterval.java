@@ -14,10 +14,8 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class TransactionInterval extends AbstractTransactionCollection
-{
-    public enum Type
-    {
+public class TransactionInterval extends AbstractTransactionCollection {
+    public enum Type {
         DAY,
         MONTH,
         YEAR
@@ -41,10 +39,8 @@ public class TransactionInterval extends AbstractTransactionCollection
             Type.MONTH, DateTimeFormatter.ofPattern("MM.yyyy"),
             Type.YEAR, DateTimeFormatter.ofPattern("yyyy"));
 
-    static String getShortestPossibleIntervalString(LocalDate begin, LocalDate end)
-    {
-        if (begin.getYear() == end.getYear())
-        {
+    static String getShortestPossibleIntervalString(LocalDate begin, LocalDate end) {
+        if (begin.getYear() == end.getYear()) {
             final var m1 = begin.getMonth();
             final var m2 = end.getMonth();
             if (m1 == m2) // Same month
@@ -55,21 +51,18 @@ public class TransactionInterval extends AbstractTransactionCollection
                 {
                     return begin.format(dateFormatterMap.get(Type.DAY));
                 }
-                if (begin == begin.with(TemporalAdjusters.firstDayOfMonth()) && end == end.with(TemporalAdjusters.lastDayOfMonth()))
-                {
+                if (begin == begin.with(TemporalAdjusters.firstDayOfMonth()) && end == end.with(TemporalAdjusters.lastDayOfMonth())) {
                     return begin.format(dateFormatterMap.get(Type.MONTH));
                 }
             }
-            if (begin == begin.with(TemporalAdjusters.firstDayOfYear()) && end == end.with(TemporalAdjusters.lastDayOfYear()))
-            {
+            if (begin == begin.with(TemporalAdjusters.firstDayOfYear()) && end == end.with(TemporalAdjusters.lastDayOfYear())) {
                 return begin.format(dateFormatterMap.get(Type.YEAR));
             }
         }
         return begin.format(dateFormatterMap.get(Type.DAY)) + " - " + end.format(dateFormatterMap.get(Type.DAY));
     }
 
-    public TransactionInterval(LocalDate begin, LocalDate end, Cluster cluster)
-    {
+    public TransactionInterval(LocalDate begin, LocalDate end, Cluster cluster) {
         this.begin = begin;
         this.end = end;
         this.cluster = cluster;
@@ -78,37 +71,31 @@ public class TransactionInterval extends AbstractTransactionCollection
         logger.debug("Interval: " + begin.toString() + " - " + end.toString());
     }
 
-    public String getIntervalString()
-    {
+    public String getIntervalString() {
         return getShortestPossibleIntervalString(begin, end);
     }
 
-    public TransactionInterval setType(Type type)
-    {
+    public TransactionInterval setType(Type type) {
         this.type = type;
         return this;
     }
 
-    public String getTypeString()
-    {
+    public String getTypeString() {
         return typeMap.get(type);
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return cluster.getName();
     }
 
     @Override
-    public boolean isConsuming()
-    {
+    public boolean isConsuming() {
         return cluster.isConsuming();
     }
 
     @Override
-    public List<Transaction> getTransactions()
-    {
+    public List<Transaction> getTransactions() {
         final var from = begin.minusDays(1);
         final var to = end.plusDays(1);
         final Predicate<Transaction> isInInterval = (transaction) ->

@@ -15,30 +15,23 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class FileCollector
-{
-    private static class Item
-    {
-        Item(Path path, Pattern pattern)
-        {
+public class FileCollector {
+    private static class Item {
+        Item(Path path, Pattern pattern) {
             this.path = path;
             this.matcher = (pattern == null ? Pattern.compile(".*") : pattern)
                     .matcher(path.getFileName().toString());
         }
 
-        boolean matches()
-        {
+        boolean matches() {
             return matcher.matches();
         }
 
-        boolean hasDate(int groupNumber, DateTimeFormatter formatter)
-        {
-            if (!matches())
-            {
+        boolean hasDate(int groupNumber, DateTimeFormatter formatter) {
+            if (!matches()) {
                 return false;
             }
-            if (matcher.groupCount() < groupNumber)
-            {
+            if (matcher.groupCount() < groupNumber) {
                 return false;
             }
             final var group = matcher.group(groupNumber);
@@ -46,13 +39,11 @@ public class FileCollector
             return true;
         }
 
-        Path getPath()
-        {
+        Path getPath() {
             return path;
         }
 
-        LocalDate getDate()
-        {
+        LocalDate getDate() {
             return date;
         }
 
@@ -66,52 +57,40 @@ public class FileCollector
     private final List<Predicate<Item>> predicates = new ArrayList<>();
     private Comparator<Item> sorter = (a, b) -> 0; // Identity
 
-    private static Path validate(Path root)
-    {
-        if (!Files.exists(root))
-        {
+    private static Path validate(Path root) {
+        if (!Files.exists(root)) {
             throw new IllegalArgumentException("Path does not exist: " + root);
         }
-        if (!Files.isDirectory(root))
-        {
+        if (!Files.isDirectory(root)) {
             throw new IllegalArgumentException("Path exists but is no directory: " + root);
         }
         return root;
     }
 
-    private static List<Path> getFileList(Path root)
-    {
-        try
-        {
+    private static List<Path> getFileList(Path root) {
+        try {
             return Files.walk(validate(root)).collect(Collectors.toList());
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new IllegalStateException("Could not discover file from root path: " + root);
         }
     }
 
-    public FileCollector(Path root)
-    {
+    public FileCollector(Path root) {
         this(getFileList(validate(root)));
     }
 
-    public FileCollector(List<Path> paths)
-    {
+    public FileCollector(List<Path> paths) {
         this.paths = paths;
         this.predicates.add(Item::matches);
     }
 
-    public FileCollector filterByPattern(Pattern pattern)
-    {
+    public FileCollector filterByPattern(Pattern pattern) {
         this.pattern = pattern;
         return this;
     }
 
-    public FileCollector sortByDate(int groupNumber, DateTimeFormatter formatter)
-    {
-        if (pattern == null)
-        {
+    public FileCollector sortByDate(int groupNumber, DateTimeFormatter formatter) {
+        if (pattern == null) {
             pattern = Pattern.compile(".*(\\d{8}).*"); // TODO I don't know, this is not a good assumption, fix this
         }
         this.predicates.add(item -> item.hasDate(groupNumber, formatter));
@@ -119,8 +98,7 @@ public class FileCollector
         return this;
     }
 
-    public List<Path> collect()
-    {
+    public List<Path> collect() {
         return paths.stream()
                 .map(path -> new Item(path, pattern))
                 .filter(Predicates.and(predicates))

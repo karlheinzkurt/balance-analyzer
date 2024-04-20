@@ -6,8 +6,7 @@ import org.insaneheadoflettuce.balanceAnalyzer.model.Transaction;
 import java.nio.file.Path;
 import java.util.List;
 
-public interface TransactionImporter
-{
+public interface TransactionImporter {
     String getName();
 
     List<Transaction> doImport(Path rootPath, Account account);

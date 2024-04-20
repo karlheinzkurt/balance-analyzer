@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface TransactionRepository extends CrudRepository<Transaction, Long>, TransactionRepositoryCustom
-{
+public interface TransactionRepository extends CrudRepository<Transaction, Long>, TransactionRepositoryCustom {
     List<Transaction> getAllByPurposeLike(String purpose);
 
     Optional<Transaction> getFirstByStateOrderByValueDateDesc(Transaction.State state);

@@ -4,7 +4,6 @@ import org.insaneheadoflettuce.balanceAnalyzer.model.Transaction;
 
 import java.util.List;
 
-public interface TransactionFileReader
-{
+public interface TransactionFileReader {
     List<Transaction> read();
 }

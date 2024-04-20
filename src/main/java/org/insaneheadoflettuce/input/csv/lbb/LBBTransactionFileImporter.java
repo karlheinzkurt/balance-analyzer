@@ -15,17 +15,14 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings("unused") // Is used by reflection
 @Service("LBBTransactionFileImporter")
-public class LBBTransactionFileImporter implements TransactionImporter
-{
+public class LBBTransactionFileImporter implements TransactionImporter {
     @Override
-    public String getName()
-    {
+    public String getName() {
         return "LBB";
     }
 
     @Override
-    public List<Transaction> doImport(Path rootPath, Account account)
-    {
+    public List<Transaction> doImport(Path rootPath, Account account) {
         final var paths = new FileCollector(rootPath)
                 .filterByPattern(Pattern.compile("(\\d{8})[-]" + account.getAccountNumber() + "[-]umsatz[.]csv", Pattern.CASE_INSENSITIVE))
                 .sortByDate(1, DateTimeFormatter.ofPattern("yyyyMMdd"))

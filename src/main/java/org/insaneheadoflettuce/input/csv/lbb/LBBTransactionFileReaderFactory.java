@@ -12,23 +12,17 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class LBBTransactionFileReaderFactory implements TransactionFileReaderFactory
-{
+public class LBBTransactionFileReaderFactory implements TransactionFileReaderFactory {
     @Override
-    public TransactionFileReader create(Path path)
-    {
-        try
-        {
+    public TransactionFileReader create(Path path) {
+        try {
             return create(Files.newInputStream(CSVTransactionReader.check(path)));
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new IllegalArgumentException("Could not process file: " + path, e);
         }
     }
 
-    public TransactionFileReader create(InputStream csvStream)
-    {
+    public TransactionFileReader create(InputStream csvStream) {
         return new CSVTransactionReader<>(new CsvToBeanBuilder<LBBTransactionEntry>(new InputStreamReader(csvStream, StandardCharsets.ISO_8859_1))
                 .withSeparator(';')
                 .withType(LBBTransactionEntry.class)

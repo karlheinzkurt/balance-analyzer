@@ -4,8 +4,7 @@ import org.insaneheadoflettuce.balanceAnalyzer.model.Transaction;
 
 import java.util.List;
 
-public interface TransactionCollection
-{
+public interface TransactionCollection {
     String getName();
 
     boolean isConsuming();

@@ -6,13 +6,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public class LBBDateConverter extends AbstractBeanField
-{
+public class LBBDateConverter extends AbstractBeanField {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy", Locale.forLanguageTag("de_DE"));
 
     @Override
-    protected Object convert(String value)
-    {
+    protected Object convert(String value) {
         return LocalDate.parse(value, formatter);
     }
 }

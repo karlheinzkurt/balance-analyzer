@@ -1,24 +1,21 @@
 package org.insaneheadoflettuce.balanceAnalyzer.model;
 
+import jakarta.persistence.*;
 import org.insaneheadoflettuce.balanceAnalyzer.Number;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Transaction
-{
-    public enum State
-    {
+public class Transaction {
+    public enum State {
         UNDEFINED, PENDING, BOOKED
     }
 
     public static final Transaction UNDEFINED = new Transaction();
 
-    static
-    {
+    static {
         final var undefined = "undefined";
         UNDEFINED.setId(-1L);
         UNDEFINED.setChecksum(undefined);
@@ -46,116 +43,93 @@ public class Transaction
     @ManyToMany(mappedBy = "transactions")
     private final Set<Cluster> clusters = new HashSet<>();
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Long id)
-    {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getChecksum()
-    {
+    public String getChecksum() {
         return checksum;
     }
 
-    public void setChecksum(String checksum)
-    {
+    public void setChecksum(String checksum) {
         this.checksum = checksum;
     }
 
-    public Account getAccount()
-    {
+    public Account getAccount() {
         return account;
     }
 
-    public void setAccount(Account account)
-    {
+    public void setAccount(Account account) {
         this.account = account;
     }
 
-    public LocalDate getValueDate()
-    {
+    public LocalDate getValueDate() {
         return valueDate;
     }
 
-    public void setValueDate(LocalDate valueDate)
-    {
+    public void setValueDate(LocalDate valueDate) {
         this.valueDate = valueDate;
     }
 
-    public String getPostingText()
-    {
+    public String getPostingText() {
         return this.postingText;
     }
 
-    public void setPostingText(String postingText)
-    {
+    public void setPostingText(String postingText) {
         this.postingText = postingText.trim();
     }
 
-    public String getPurpose()
-    {
+    public String getPurpose() {
         return purpose;
     }
 
-    public void setPurpose(String purpose)
-    {
+    public void setPurpose(String purpose) {
         this.purpose = purpose.trim();
     }
 
-    public String getRecipientOrPayer()
-    {
+    public String getRecipientOrPayer() {
         return this.recipientOrPayer;
     }
 
-    public void setRecipientOrPayer(String recipientOrPayer)
-    {
+    public void setRecipientOrPayer(String recipientOrPayer) {
         this.recipientOrPayer = recipientOrPayer.trim();
     }
 
-    public Number getAmount()
-    {
+    public Number getAmount() {
         return new Number(amount);
     }
 
-    public void setAmount(Double amount)
-    {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
-    public State getState()
-    {
+    public State getState() {
         return state;
     }
 
-    public void setState(State state)
-    {
+    public void setState(State state) {
         this.state = state;
     }
 
-    public Boolean isClustered()
-    {
+    public Boolean isClustered() {
         return clustered;
     }
 
-    public String getAccountColor()
-    {
+    public String getAccountColor() {
         return account.getColor();
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Id: " + getId() + ", Value date: " + getValueDate() + ", Recipient or payer: " + getRecipientOrPayer() + ", Purpose: " + getPurpose() + ", Checksum: " + getChecksum();
     }
 
-    public Transaction add(Cluster cluster)
-    {
-        if (clustered && cluster.isConsuming())
-        {
+    public Transaction add(Cluster cluster) {
+        if (clustered && cluster.isConsuming()) {
             throw new IllegalStateException("Already clustered transaction has been matched by: " + cluster.getName());
         }
         clusters.add(cluster);

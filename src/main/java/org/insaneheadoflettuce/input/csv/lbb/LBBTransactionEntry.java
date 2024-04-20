@@ -8,8 +8,7 @@ import org.insaneheadoflettuce.input.csv.CSVTransactionEntry;
 
 import java.time.LocalDate;
 
-public class LBBTransactionEntry implements CSVTransactionEntry
-{
+public class LBBTransactionEntry implements CSVTransactionEntry {
     private static final String defaultLocale = "de-DE";
 
     @CsvBindByName(column = "Auftragskonto", locale = defaultLocale, required = true)
@@ -64,8 +63,7 @@ public class LBBTransactionEntry implements CSVTransactionEntry
     Transaction.State state;
 
     @Override
-    public Transaction toTransaction()
-    {
+    public Transaction toTransaction() {
         IBANValidator.validOrThrow(auftragsKonto);
 
         final var t = new Transaction();

@@ -20,53 +20,42 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class PostbankTransactionFileReaderFactory implements TransactionFileReaderFactory
-{
+public class PostbankTransactionFileReaderFactory implements TransactionFileReaderFactory {
     static final char separator = ';';
 
     @Override
-    public TransactionFileReader create(Path path)
-    {
-        try
-        {
+    public TransactionFileReader create(Path path) {
+        try {
             return create(Files.readAllLines(CSVTransactionReader.check(path), Charset.forName("Windows-1252")));
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new IllegalArgumentException("Could not process file: " + path, e);
         }
     }
 
-    private enum Field
-    {
+    private enum Field {
         NAME, IBAN, BOOKED, PENDING
     }
 
-    private static class Item
-    {
+    private static class Item {
         final String token;
         String line;
         int index;
 
-        Item(String token)
-        {
+        Item(String token) {
             this.token = token;
         }
 
-        void set(int index, String line)
-        {
+        void set(int index, String line) {
             this.index = index;
             this.line = line;
         }
 
-        boolean matches(String line)
-        {
+        boolean matches(String line) {
             return line.startsWith(token);
         }
     }
 
-    public TransactionFileReader create(List<String> lines)
-    {
+    public TransactionFileReader create(List<String> lines) {
         // TODO This is a hack!!
         final var matches = Map.of(
                 Field.NAME, new Item("Name" + separator),
@@ -80,15 +69,13 @@ public class PostbankTransactionFileReaderFactory implements TransactionFileRead
             {
                 final var currentIndex = index.incrementAndGet();
                 final var match = matches.values().stream().filter(item -> item.matches(line)).findFirst();
-                if (match.isPresent())
-                {
+                if (match.isPresent()) {
                     required.remove(match.get().token);
                     match.get().set(currentIndex, line);
                 }
                 return required.isEmpty();
             });
-            if (!allFound)
-            {
+            if (!allFound) {
                 throw new IllegalArgumentException("Required lines not found, probably file not matching: " + required);
             }
         }
