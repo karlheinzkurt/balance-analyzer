@@ -72,12 +72,21 @@ public class ClusterDescription {
     }
 
     public List<Transaction> consumeMatching(List<Transaction> transactions) {
-        final Iterable<Predicate<Transaction>> white = whiteList.entrySet().stream().map(entry ->
-                        (Predicate<Transaction>) transaction -> entry.getValue().getPattern().matcher(fieldMap.get(entry.getKey()).apply(transaction)).matches())
+        final Iterable<Predicate<Transaction>> white = whiteList.entrySet().stream()
+                .filter(entry -> !entry.getValue().getTokens().isEmpty())
+                .map(entry -> (Predicate<Transaction>) transaction -> entry.getValue()
+                        .getPattern()
+                        .matcher(fieldMap.get(entry.getKey()).apply(transaction))
+                        .matches())
                 .collect(Collectors.toList());
-        final Iterable<Predicate<Transaction>> black = blackList.entrySet().stream().map(entry ->
-                        (Predicate<Transaction>) transaction -> entry.getValue().getPattern().matcher(fieldMap.get(entry.getKey()).apply(transaction)).matches())
+        final Iterable<Predicate<Transaction>> black = blackList.entrySet().stream()
+                .filter(entry -> !entry.getValue().getTokens().isEmpty())
+                .map(entry -> (Predicate<Transaction>) transaction -> entry.getValue()
+                        .getPattern()
+                        .matcher(fieldMap.get(entry.getKey()).apply(transaction))
+                        .matches())
                 .collect(Collectors.toList());
+        
         return transactions.stream()
                 .filter(Predicates.and(Predicates.or(white), Predicates.not(Predicates.or(black))))
                 .collect(Collectors.toList());

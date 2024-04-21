@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -58,10 +59,20 @@ public class MatchDescription {
     }
 
     private static final Map<MatchType, Function<List<String>, String>> matchTypeMap = Map.ofEntries(
-            Map.entry(MatchType.CONTAINS_ANY_QUOTED, tokens -> ".*?(" + tokens.stream().map(Pattern::quote).collect(Collectors.joining("|")) + ").*?"),
-            Map.entry(MatchType.CONTAINS_ANY_PATTERN, tokens -> ".*?(" + String.join("|", tokens) + ").*?"),
-            Map.entry(MatchType.MATCHES_ANY_QUOTED, tokens -> "^" + tokens.stream().map(Pattern::quote).collect(Collectors.joining("|")) + "$"),
-            Map.entry(MatchType.MATCHES_ANY_PATTERN, tokens -> "^" + String.join("|", tokens) + "$")
+            Map.entry(MatchType.CONTAINS_ANY_QUOTED, tokens -> ".*?(" + tokens.stream()
+                    .filter(Predicate.not(String::isEmpty))
+                    .map(Pattern::quote)
+                    .collect(Collectors.joining("|")) + ").*?"),
+            Map.entry(MatchType.CONTAINS_ANY_PATTERN, tokens -> ".*?(" + tokens.stream()
+                    .filter(Predicate.not(String::isEmpty))
+                    .collect(Collectors.joining("|")) + ").*?"),
+            Map.entry(MatchType.MATCHES_ANY_QUOTED, tokens -> "^" + tokens.stream()
+                    .filter(Predicate.not(String::isEmpty))
+                    .map(Pattern::quote)
+                    .collect(Collectors.joining("|")) + "$"),
+            Map.entry(MatchType.MATCHES_ANY_PATTERN, tokens -> "^" + tokens.stream()
+                    .filter(Predicate.not(String::isEmpty))
+                    .collect(Collectors.joining("|")) + "$")
     );
 
     @Id
