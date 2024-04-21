@@ -1,7 +1,7 @@
 package org.insaneheadoflettuce.input.csv.lbb;
 
 import com.opencsv.bean.AbstractBeanField;
-import org.insaneheadoflettuce.balanceAnalyzer.model.Transaction;
+import org.insaneheadoflettuce.balance_analyzer.model.Transaction;
 
 import java.util.Map;
 

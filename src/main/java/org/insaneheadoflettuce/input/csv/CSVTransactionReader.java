@@ -1,7 +1,7 @@
 package org.insaneheadoflettuce.input.csv;
 
 import com.opencsv.bean.CsvToBean;
-import org.insaneheadoflettuce.balanceAnalyzer.model.Transaction;
+import org.insaneheadoflettuce.balance_analyzer.model.Transaction;
 import org.insaneheadoflettuce.input.api.ChecksumProvider;
 import org.insaneheadoflettuce.input.api.TransactionFileReader;
 import org.insaneheadoflettuce.input.common.SimpleChecksumProvider;

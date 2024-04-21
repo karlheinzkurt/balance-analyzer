@@ -1,8 +1,8 @@
 package org.insaneheadoflettuce.input.csv.postbank;
 
 import com.opencsv.bean.CsvToBeanBuilder;
-import org.insaneheadoflettuce.balanceAnalyzer.model.Transaction;
-import org.insaneheadoflettuce.balanceAnalyzer.utility.IBANValidator;
+import org.insaneheadoflettuce.balance_analyzer.model.Transaction;
+import org.insaneheadoflettuce.balance_analyzer.utility.IBANValidator;
 import org.insaneheadoflettuce.input.api.TransactionFileReader;
 import org.insaneheadoflettuce.input.api.TransactionFileReaderFactory;
 import org.insaneheadoflettuce.input.csv.CSVTransactionReader;

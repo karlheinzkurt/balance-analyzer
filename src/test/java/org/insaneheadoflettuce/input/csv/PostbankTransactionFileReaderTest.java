@@ -1,7 +1,7 @@
 package org.insaneheadoflettuce.input.csv;
 
-import org.insaneheadoflettuce.balanceAnalyzer.Number;
-import org.insaneheadoflettuce.balanceAnalyzer.model.Transaction;
+import org.insaneheadoflettuce.balance_analyzer.Number;
+import org.insaneheadoflettuce.balance_analyzer.model.Transaction;
 import org.insaneheadoflettuce.input.api.TransactionFileReaderFactory;
 import org.insaneheadoflettuce.input.csv.postbank.PostbankTransactionFileReaderFactory;
 import org.junit.jupiter.api.Assertions;
@@ -11,19 +11,16 @@ import org.junit.jupiter.api.Test;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-public class PostbankTransactionFileReaderTest
-{
+public class PostbankTransactionFileReaderTest {
     private static TransactionFileReaderFactory readerFactory;
 
     @BeforeAll
-    static void beforeAll()
-    {
+    static void beforeAll() {
         readerFactory = new PostbankTransactionFileReaderFactory();
     }
 
     @Test
-    void readFromFile()
-    {
+    void readFromFile() {
         final var reader = Assertions.assertDoesNotThrow(() -> readerFactory.create(Paths.get(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource("Postbank/Umsatzauskunft_KtoNr0123456789_20-01-2020_20-20-20.csv")).getPath())));
         final var transactions = Assertions.assertDoesNotThrow(reader::read);

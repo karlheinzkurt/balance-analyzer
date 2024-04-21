@@ -1,7 +1,7 @@
 package org.insaneheadoflettuce.input.api;
 
-import org.insaneheadoflettuce.balanceAnalyzer.model.Account;
-import org.insaneheadoflettuce.balanceAnalyzer.model.Transaction;
+import org.insaneheadoflettuce.balance_analyzer.model.Account;
+import org.insaneheadoflettuce.balance_analyzer.model.Transaction;
 
 import java.nio.file.Path;
 import java.util.List;

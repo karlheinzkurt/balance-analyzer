@@ -1,7 +1,7 @@
 package org.insaneheadoflettuce.input;
 
-import org.insaneheadoflettuce.balanceAnalyzer.model.Account;
-import org.insaneheadoflettuce.balanceAnalyzer.model.Transaction;
+import org.insaneheadoflettuce.balance_analyzer.model.Account;
+import org.insaneheadoflettuce.balance_analyzer.model.Transaction;
 import org.insaneheadoflettuce.input.api.TransactionImporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

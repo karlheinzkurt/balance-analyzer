@@ -1,6 +1,6 @@
 package org.insaneheadoflettuce.input.common;
 
-import org.insaneheadoflettuce.balanceAnalyzer.model.Transaction;
+import org.insaneheadoflettuce.balance_analyzer.model.Transaction;
 import org.insaneheadoflettuce.input.api.TransactionFileReader;
 import org.insaneheadoflettuce.input.api.TransactionFileReaderFactory;
 import org.slf4j.Logger;

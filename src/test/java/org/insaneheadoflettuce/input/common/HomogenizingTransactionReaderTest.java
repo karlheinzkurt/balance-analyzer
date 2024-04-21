@@ -1,6 +1,6 @@
 package org.insaneheadoflettuce.input.common;
 
-import org.insaneheadoflettuce.balanceAnalyzer.model.Transaction;
+import org.insaneheadoflettuce.balance_analyzer.model.Transaction;
 import org.insaneheadoflettuce.input.api.TransactionFileReader;
 import org.insaneheadoflettuce.input.api.TransactionFileReaderFactory;
 import org.junit.jupiter.api.Assertions;
@@ -14,12 +14,10 @@ import java.util.List;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class HomogenizingTransactionReaderTest
-{
+public class HomogenizingTransactionReaderTest {
     TransactionFileReader reader;
 
-    Transaction createTransaction(String checksum, String purpose, String date)
-    {
+    Transaction createTransaction(String checksum, String purpose, String date) {
         final var t = new Transaction();
         t.setChecksum(checksum);
         t.setPurpose(purpose);
@@ -27,16 +25,14 @@ public class HomogenizingTransactionReaderTest
         return t;
     }
 
-    TransactionFileReader createReader(List<Transaction> transactions)
-    {
+    TransactionFileReader createReader(List<Transaction> transactions) {
         final var reader = mock(TransactionFileReader.class);
         when(reader.read()).thenReturn(transactions);
         return reader;
     }
 
     @BeforeEach
-    void beforeEach()
-    {
+    void beforeEach() {
         final var readerFactory = mock(TransactionFileReaderFactory.class);
         when(readerFactory.create(Paths.get("pathA"))).thenAnswer(c -> createReader(List.of(
                 createTransaction("123", "TransactionA1", "2020-01-01"),
@@ -51,8 +47,7 @@ public class HomogenizingTransactionReaderTest
     }
 
     @Test
-    void latestTransactionWithSameChecksumWins()
-    {
+    void latestTransactionWithSameChecksumWins() {
         final var transactions = reader.read();
         Assertions.assertEquals(5, transactions.size());
         Assertions.assertEquals("TransactionB1", transactions.get(0).getPurpose());

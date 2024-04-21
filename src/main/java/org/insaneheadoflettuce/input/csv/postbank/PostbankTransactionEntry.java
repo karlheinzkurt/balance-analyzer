@@ -2,7 +2,7 @@ package org.insaneheadoflettuce.input.csv.postbank;
 
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
-import org.insaneheadoflettuce.balanceAnalyzer.model.Transaction;
+import org.insaneheadoflettuce.balance_analyzer.model.Transaction;
 import org.insaneheadoflettuce.input.csv.CSVTransactionEntry;
 
 import java.time.LocalDate;

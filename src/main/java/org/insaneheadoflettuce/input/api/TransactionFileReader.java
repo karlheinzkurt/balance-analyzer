@@ -1,6 +1,6 @@
 package org.insaneheadoflettuce.input.api;
 
-import org.insaneheadoflettuce.balanceAnalyzer.model.Transaction;
+import org.insaneheadoflettuce.balance_analyzer.model.Transaction;
 
 import java.util.List;
 

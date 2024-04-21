@@ -1,7 +1,7 @@
 package org.insaneheadoflettuce.input.csv;
 
-import org.insaneheadoflettuce.balanceAnalyzer.Number;
-import org.insaneheadoflettuce.balanceAnalyzer.model.Transaction;
+import org.insaneheadoflettuce.balance_analyzer.Number;
+import org.insaneheadoflettuce.balance_analyzer.model.Transaction;
 import org.insaneheadoflettuce.input.api.TransactionFileReaderFactory;
 import org.insaneheadoflettuce.input.csv.lbb.LBBTransactionFileReaderFactory;
 import org.junit.jupiter.api.Assertions;
@@ -11,19 +11,16 @@ import org.junit.jupiter.api.Test;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-public class LBBTransactionFileReaderTest
-{
+public class LBBTransactionFileReaderTest {
     private static TransactionFileReaderFactory readerFactory;
 
     @BeforeAll
-    static void beforeAll()
-    {
+    static void beforeAll() {
         readerFactory = new LBBTransactionFileReaderFactory();
     }
 
     @Test
-    void readFromFile()
-    {
+    void readFromFile() {
         final var reader = readerFactory.create(Paths.get(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource("LBB/20191201-0123456789-umsatz.csv")).getPath()));
         final var transactions = Assertions.assertDoesNotThrow(reader::read);
@@ -63,8 +60,7 @@ public class LBBTransactionFileReaderTest
     }
 
     @Test
-    void readEmptyFile()
-    {
+    void readEmptyFile() {
         final var reader = readerFactory.create(Paths.get(Objects.requireNonNull(getClass().getClassLoader()
                 .getResource("LBB/20191201-empty-umsatz.csv")).getPath()));
         final var transactions = Assertions.assertDoesNotThrow(reader::read);
@@ -72,16 +68,14 @@ public class LBBTransactionFileReaderTest
     }
 
     @Test
-    void readNotExistingFile()
-    {
+    void readNotExistingFile() {
         final var thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> readerFactory.create(Paths.get("j2h3g42jh34g2j34g23g4j234gj2h34g.csv")));
         Assertions.assertTrue(thrown.getMessage().startsWith("Path not found: "));
         Assertions.assertTrue(thrown.getMessage().contains("j2h3g42jh34g2j34g23g4j234gj2h34g"));
     }
 
     @Test
-    void readDirectoryTypePath()
-    {
+    void readDirectoryTypePath() {
         final var thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> readerFactory.create(Paths.get(".").toAbsolutePath()));
         Assertions.assertTrue(thrown.getMessage().startsWith("Path exists but is not of type file: "));
     }
