@@ -4,6 +4,7 @@ target/
 !**/src/main/**
 !**/src/test/**
 .gradle/
+**/.DS_Store
 /data
 /config
 
