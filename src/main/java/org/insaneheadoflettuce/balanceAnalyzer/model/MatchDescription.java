@@ -59,18 +59,18 @@ public class MatchDescription {
     }
 
     private static final Map<MatchType, Function<List<String>, String>> matchTypeMap = Map.ofEntries(
-            Map.entry(MatchType.CONTAINS_ANY_QUOTED, tokens -> ".*?(" + tokens.stream()
+            Map.entry(MatchType.CONTAINS_ANY_QUOTED, t -> ".*?(" + t.stream()
                     .filter(Predicate.not(String::isEmpty))
                     .map(Pattern::quote)
                     .collect(Collectors.joining("|")) + ").*?"),
-            Map.entry(MatchType.CONTAINS_ANY_PATTERN, tokens -> ".*?(" + tokens.stream()
+            Map.entry(MatchType.CONTAINS_ANY_PATTERN, t -> ".*?(" + t.stream()
                     .filter(Predicate.not(String::isEmpty))
                     .collect(Collectors.joining("|")) + ").*?"),
-            Map.entry(MatchType.MATCHES_ANY_QUOTED, tokens -> "^" + tokens.stream()
+            Map.entry(MatchType.MATCHES_ANY_QUOTED, t -> "^" + t.stream()
                     .filter(Predicate.not(String::isEmpty))
                     .map(Pattern::quote)
                     .collect(Collectors.joining("|")) + "$"),
-            Map.entry(MatchType.MATCHES_ANY_PATTERN, tokens -> "^" + tokens.stream()
+            Map.entry(MatchType.MATCHES_ANY_PATTERN, t -> "^" + t.stream()
                     .filter(Predicate.not(String::isEmpty))
                     .collect(Collectors.joining("|")) + "$")
     );

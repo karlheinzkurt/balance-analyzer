@@ -5,30 +5,28 @@ import org.insaneheadoflettuce.balanceAnalyzer.TestCommons;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class ClusterDescriptionTest
-{
+class ClusterDescriptionTest {
     List<Transaction> transactions;
 
     @BeforeEach
-    void beforeEach()
-    {
+    void beforeEach() {
         transactions = TestCommons.createMockedTransactions();
     }
 
     @Test
-    void instantiation()
-    {
+    void instantiation() {
         final var description = ClusterDescription.create("bla");
         assertEquals("bla", description.getName());
     }
 
     @Test
-    void simpleWhitelist()
-    {
+    void simpleWhitelist() {
         final var cluster = new ClusterDescription();
         cluster.setWhiteList(ClusterDescription.Field.PURPOSE, MatchDescription.containsAnyPattern(".*payed.*"));
         cluster.setWhiteList(ClusterDescription.Field.RECIPIENTORPAYER, MatchDescription.containsAnyPattern(".*kurt.*"));
@@ -40,8 +38,7 @@ public class ClusterDescriptionTest
     }
 
     @Test
-    void simpleBlacklist()
-    {
+    void simpleBlacklist() {
         final var cluster = new ClusterDescription();
         cluster.setBlackList(ClusterDescription.Field.RECIPIENTORPAYER, MatchDescription.containsAnyPattern(".*Jack.*"));
         cluster.setWhiteList(ClusterDescription.Field.PURPOSE, MatchDescription.containsAnyPattern(".*some money.*"));
@@ -53,8 +50,7 @@ public class ClusterDescriptionTest
     }
 
     @Test
-    void matchesAnyQuotedFromJson()
-    {
+    void matchesAnyQuotedFromJson() {
         final var clusterDescription = new Gson().fromJson("""
                 {
                     "name": "Some cluster",
@@ -76,5 +72,66 @@ public class ClusterDescriptionTest
         assertEquals(1, selected.size());
         assertEquals("The other Jack", selected.get(0).getRecipientOrPayer());
         assertEquals("Regards from Area52", selected.get(0).getPurpose());
+    }
+
+    MatchDescription createMatchDescription(List<String> tokens) {
+        return createMatchDescription(null, tokens);
+    }
+
+    MatchDescription createMatchDescription(MatchDescription.MatchType type, List<String> tokens) {
+        final var description = new MatchDescription();
+        description.setTokens(tokens);
+        description.setMatchType(type);
+        return description;
+    }
+
+    @Test
+    void hasNoValidTokens() {
+        assertFalse(ClusterDescription.hasValidTokens(null));
+        assertFalse(ClusterDescription.hasValidTokens(new MatchDescription()));
+        assertFalse(ClusterDescription.hasValidTokens(createMatchDescription(List.of())));
+        assertFalse(ClusterDescription.hasValidTokens(createMatchDescription(List.of(""))));
+    }
+
+    @Test
+    void hasValidTokens() {
+        assertTrue(ClusterDescription.hasValidTokens(createMatchDescription(List.of("bla"))));
+        assertTrue(ClusterDescription.hasValidTokens(createMatchDescription(List.of("", "bla"))));
+        assertTrue(ClusterDescription.hasValidTokens(createMatchDescription(Arrays.asList(null, "", "bla"))));
+    }
+
+    Transaction createTransaction(String purpose) {
+        final var transaction = new Transaction();
+        transaction.setPurpose(purpose);
+        return transaction;
+    }
+
+    @Test
+    void createMatchingPredicate() {
+        assertTrue(ClusterDescription.createPredicate(Map.entry(
+                        ClusterDescription.Field.PURPOSE,
+                        createMatchDescription(MatchDescription.MatchType.MATCHES_ANY_QUOTED, List.of("bla"))))
+                .apply(createTransaction("bla")));
+        
+        assertTrue(ClusterDescription.createPredicate(Map.entry(
+                        ClusterDescription.Field.PURPOSE,
+                        createMatchDescription(MatchDescription.MatchType.MATCHES_ANY_QUOTED, List.of("foo", "bla"))))
+                .apply(createTransaction("bla")));
+    }
+
+    @Test
+    void createNonMatchingPredicate() {
+        assertFalse(ClusterDescription.createPredicate(Map.entry(
+                        ClusterDescription.Field.PURPOSE,
+                        createMatchDescription(MatchDescription.MatchType.MATCHES_ANY_QUOTED, List.of("bla"))))
+                .apply(createTransaction("foo")));
+    }
+
+    @Test
+    void createMatchingOtherFieldPredicate() {
+        assertFalse(ClusterDescription.createPredicate(Map.entry(
+                        ClusterDescription.Field.POSTINGTEXT,
+                        createMatchDescription(MatchDescription.MatchType.MATCHES_ANY_QUOTED, List.of("bla"))))
+                .apply(createTransaction("bla")));
     }
 }
